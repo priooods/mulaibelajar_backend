@@ -36,7 +36,7 @@ class Controller extends BaseController
             'error_code' => 0,
             'error_message' => "",
             'data' => $data
-        ]);
+        ], 200, [], JSON_NUMERIC_CHECK);
     }
     public function resFailed($code,$error){
         if (is_array($error))

@@ -1,6 +1,8 @@
 <?php
 
 use App\Http\Controllers\KelasController;
+use App\Http\Controllers\ManageKelasController;
+use App\Http\Controllers\PelajaranController;
 use App\Http\Controllers\UserController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -26,10 +28,22 @@ Route::get('show', [UserController::class,'show']);
 Route::get('userall', [UserController::class,'userall']);
 
 Route::middleware('jwt.verify')->group(function () {
-    Route::post('kelas/new', [KelasController::class,'addclass']);
-    Route::get('kelas/show', [KelasController::class,'showkelas']);
+    Route::prefix('kelas')->group(function () {
+        Route::post('add', [KelasController::class,'Add']);
+        Route::get('show', [KelasController::class,'ShowAll']);
+        Route::post('update', [KelasController::class,'Update']);
+    });
 
-    Route::post('content/new', [KelasController::class,'addContent']);
+    Route::prefix('pelajaran')->group(function () {
+        Route::post('add', [PelajaranController::class,'Add']);
+        Route::post('update', [PelajaranController::class,'Update']);
+        Route::get('show', [PelajaranController::class,'ShowAll']);
+    });
 
-    Route::post('daftar/new', [UserController::class,'daftarclass']);
+    Route::prefix('manage')->group(function () {
+        Route::post('add', [ManageKelasController::class,'Add']);
+        Route::get('show', [ManageKelasController::class,'ShowAll']);
+        Route::post('update', [ManageKelasController::class,'Update']);
+        Route::post('delete', [ManageKelasController::class,'delete']);
+    });
 });
