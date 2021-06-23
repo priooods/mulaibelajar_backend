@@ -16,10 +16,11 @@ class UserController extends Controller
 {
     public function register(Request $request){
         $validator = Validator::make($request->all(), [
-            'nama' => 'required|string|max:255',
+            'username' => 'required|string|max:255',
             'email' => 'required|string|email|max:255|unique:users',
             'password' => 'required|min:6',
             'nama_lengkap' => 'required',
+            'level' => 'required',
             'no_hp' => 'required|int',
         ]);
 
@@ -48,7 +49,7 @@ class UserController extends Controller
     }
 
     public function login(Request $request){
-        $credentials = $request->only('email', 'password');
+        $credentials = $request->only('username', 'password');
 
         try {
             if (! $token = JWTAuth::attempt($credentials)) {
@@ -73,27 +74,10 @@ class UserController extends Controller
         } catch (JWTException $e) {
             return response()->json(['token_absent'], $e->getCode());
         }
-        return $this->resSuccess($user->with('manage')->get());
-    }
-
-    public function daftarclass(Request $request){
-        $validator = Validator::make($request->all(), [
-            'user_id' => 'required|int',
-            'kelas_id' => 'required|int',
-            'bayar' => 'required|int',
-        ]);
-
-        if($validator->fails()){
-            return response()->json([
-                'error_code' => 1,
-                'message' => $validator->errors()
-            ], 200);
-        }
-        $manage = UsersManage::create($request->all());
-        return $this->resSuccess($manage);
+        return $this->resSuccess($user->get());
     }
 
     public function userall(){
-        return $this->resSuccess(User::with('manage')->get());
+        return $this->resSuccess(User::all());
     }
 }

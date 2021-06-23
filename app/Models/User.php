@@ -18,7 +18,8 @@ class User extends Authenticatable implements JWTSubject
      * @var array
      */
     protected $fillable = [
-        'nama',
+        'username',
+        'level',
         'nama_lengkap',
         'password',
         'no_hp',
@@ -27,9 +28,6 @@ class User extends Authenticatable implements JWTSubject
         'email_verified_at',
     ];
 
-    public function manage(){
-        return $this->hasMany(UsersManage::class, 'user_id','id');
-    }
 
     public function getJWTIdentifier()
     {
