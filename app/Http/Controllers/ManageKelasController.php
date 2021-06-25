@@ -10,13 +10,11 @@ use Illuminate\Support\Facades\Validator;
 class ManageKelasController extends Controller
 {
 
-    public function Add(Request $request){
+    public function add(Request $request){
         if($validate = $this->validing($request->all(), [
             'pelajaran_id' => 'required',
             'kelas_id' => 'required',
-            'discount' => 'required',
-            'harga_awal' => 'required',
-            'harga_akhir' => 'required',
+            'harga' => 'required'
         ]))
             return $validate;
         
@@ -24,11 +22,11 @@ class ManageKelasController extends Controller
         return $this->resSuccess($manage);
     }
 
-    public function ShowAll(){
+    public function all(){
         return $this->resSuccess(ManageKelas::with(['pelajaran','kelas'])->get());
     }
 
-    public function Details(Request $request){
+    public function detail(Request $request){
         if($validator = Validator::make($request->all(), [
             'id' => 'required',
         ]));
@@ -38,6 +36,8 @@ class ManageKelasController extends Controller
         if(!$detail) return $this->resFailed(1,'Data tidak ditemukan');
         return $this->resSuccess($detail->with(['kelas','pelajaran'])->get());
     }
+
+
 
     public function delete(Request $request){
         if ($validate = $this->validing($request->all(),[
@@ -52,7 +52,7 @@ class ManageKelasController extends Controller
         return $this->resSuccess('Data berhasil dihapus!');
     }
 
-    public function Update(Request $request){
+    public function update(Request $request){
         if ($validate = $this->validing($request->all(),[
             'id' => 'required',
         ]))

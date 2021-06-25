@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Models\User;
 use App\Models\UsersManage;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use Tymon\JWTAuth\Exceptions\JWTException;
@@ -31,19 +33,17 @@ class UserController extends Controller
             ], 200);
         }
 
-        if ($request->image!=null){
-            if ($request->hasFile('avatar')) {
-                $file = $request->file('avatar');
-                $filename = 'avatar_'.$request->username.'_'.$file->getClientOriginalName();
-                $path = $file->move(public_path('avatar'), $filename);
-                $request['avatar'] = $filename;
-            }else
-                return $this->resFailed("3","avatar file extention not supported!");
-        }
-
+        $request['password_verified'] = Crypt::encrypt($request['password']);
         $request['password'] = Hash::make($request->get('password'));
         $user = User::create($request->all());
         $token = JWTAuth::fromUser($user);
+
+        if ($request->hasFile('avatar')) {
+            $file = $request->file('avatar');
+            $filename = $user->id . '_' . $file->getClientOriginalName();
+            $path = $file->move(public_path('avatar'), $filename);
+            $user->update(['avatar' => $filename]);
+        }
 
         return $this->resSuccess(compact('user','token'),201);
     }
@@ -53,16 +53,47 @@ class UserController extends Controller
 
         try {
             if (! $token = JWTAuth::attempt($credentials)) {
-                return response()->json(['error_code' => 1,'message' => 'invalid credentials'], 200);
+                return $this->resFailed(1,"invalid credentials");
             }
         } catch (JWTException $e) {
-            return response()->json(['error_code' => 1,'message' => 'could not create token'], 200);
+            return $this->resFailed(1,"could not create token");
         }
         
         return response()->json(['error_code' => 0,'message' => '', 'token' => $token]);
     }
 
-    public function show(){
+
+    public function update(Request $request){
+        if ($validate = $this->validing($request->all(),[
+            'token' => 'required',
+        ]))
+            return $validate;
+
+        $user = User::find(Auth::user()->id);
+        if ($request->avatar != null){
+            if ($request->hasFile('avatar')) {
+                $file = $request->file('avatar');
+                $filename = $user->id . '_' . $file->getClientOriginalName();
+                if ($user->avatar) {
+                    $file_loc = public_path('avatar/') . $user->avatar;
+                    unlink($file_loc);
+                }
+                $path = $file->move(public_path('avatar'), $filename);
+                $user->avatar = $request->avatar = $filename;
+            }
+        }
+        if (!is_null($request->password)) $user->password_verified = Crypt::encrypt($request->password);
+        if (!is_null($request->nama_lengkap)) $user->nama_lengkap = $request->nama_lengkap;
+        if (!is_null($request->password)) $user->password = Hash::make($request->password);
+        if (!is_null($request->username)) $user->username = $request->username;
+        if (!is_null($request->no_hp)) $user->no_hp = $request->no_hp;
+        if (!is_null($request->level)) $user->level = $request->level;
+        if (!is_null($request->email)) $user->email = $request->email;
+        $user->update();
+        return $this->resSuccess($user);
+    }
+
+    public function me(){
         try {
             if (! $user = JWTAuth::parseToken()->authenticate()) {
                 return response()->json(['user_not_found'], 200);
@@ -77,7 +108,22 @@ class UserController extends Controller
         return $this->resSuccess($user->get());
     }
 
-    public function userall(){
+    public function delete(){
+        $db = Auth::user();
+        $user = User::where('username', $db->username)->first();
+        if (!$user){
+            return response()->json([
+                'error_code' => '1',
+                'error_message' => 'Pengguna tidak ditemukan!',
+            ]);
+        }
+        $file_loc = public_path('avatar/') . $user->avatar;
+        unlink($file_loc);
+        $user->delete();
+        return $this->resSuccess("Pengguna berhasil di hapus");
+    }
+
+    public function all(){
         return $this->resSuccess(User::all());
     }
 }

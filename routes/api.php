@@ -24,26 +24,31 @@ Route::middleware('jwt.verify')->get('/', function (Request $request) {
 
 Route::post('register', [UserController::class,'register']);
 Route::post('login', [UserController::class,'login']);
-Route::get('show', [UserController::class,'show']);
-Route::get('userall', [UserController::class,'userall']);
+Route::get('me', [UserController::class,'me']);
+Route::get('all', [UserController::class,'all']);
+Route::post('delete', [UserController::class,'delete']);
+Route::post('update', [UserController::class,'update']);
 
 Route::middleware('jwt.verify')->group(function () {
     Route::prefix('kelas')->group(function () {
-        Route::post('add', [KelasController::class,'Add']);
-        Route::get('show', [KelasController::class,'ShowAll']);
-        Route::post('update', [KelasController::class,'Update']);
+        Route::post('add', [KelasController::class,'add']);
+        Route::get('all', [KelasController::class,'all']);
+        Route::post('update', [KelasController::class,'update']);
+        Route::post('delete', [KelasController::class,'delete']);
     });
 
     Route::prefix('pelajaran')->group(function () {
-        Route::post('add', [PelajaranController::class,'Add']);
-        Route::post('update', [PelajaranController::class,'Update']);
-        Route::get('show', [PelajaranController::class,'ShowAll']);
+        Route::post('add', [PelajaranController::class,'add']);
+        Route::get('all', [PelajaranController::class,'all']);
+        Route::post('update', [PelajaranController::class,'update']);
+        Route::post('delete', [PelajaranController::class,'delete']);
     });
 
     Route::prefix('manage')->group(function () {
-        Route::post('add', [ManageKelasController::class,'Add']);
-        Route::get('show', [ManageKelasController::class,'ShowAll']);
-        Route::post('update', [ManageKelasController::class,'Update']);
+        Route::post('add', [ManageKelasController::class,'add']);
+        Route::get('all', [ManageKelasController::class,'all']);
+        Route::post('update', [ManageKelasController::class,'update']);
         Route::post('delete', [ManageKelasController::class,'delete']);
+        Route::post('detail', [ManageKelasController::class,'detail']);
     });
 });

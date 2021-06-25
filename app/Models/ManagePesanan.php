@@ -6,13 +6,12 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Notifications\Notifiable;
 
-class Pelajaran extends Model
+class ManagePesanan extends Model
 {
     use HasFactory, Notifiable;
 
     protected $fillable = [
-        'deskripsi',
-        'nama_pelajaran',
-        'kode_pelajaran'
+        'pesanan_id',
+        'manage_kelas_id',
     ];
 }
