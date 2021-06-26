@@ -14,6 +14,7 @@ class PelajaranController extends Controller
         if($validator = $this->validing($request->all(), [
             'nama_pelajaran' => 'required',
             'deskripsi' => 'required',
+            'subtitle' => 'required'
         ]))
             return $validator;
 

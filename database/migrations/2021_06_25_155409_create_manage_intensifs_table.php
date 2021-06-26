@@ -16,13 +16,13 @@ class CreateManageIntensifsTable extends Migration
         Schema::create('manage_intensifs', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('intensif_id');
-            $table->unsignedBigInteger('manage_kelas_id')->nullable();
+            $table->unsignedBigInteger('manage_kelas_id');
             $table->timestamps();
         });
 
         Schema::table('manage_intensifs', function($table){
             $table->foreign('intensif_id')->references('id')->on('intensifs')->onDelete('cascade');
-            $table->foreign('manage_kelas_id')->references('id')->on('manage_kelas')->onDelete('set null');
+            $table->foreign('manage_kelas_id')->references('id')->on('manage_kelas')->onDelete('cascade');
         });
     }
 

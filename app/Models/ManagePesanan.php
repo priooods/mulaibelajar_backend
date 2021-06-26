@@ -14,4 +14,8 @@ class ManagePesanan extends Model
         'pesanan_id',
         'manage_kelas_id',
     ];
+
+    public function detailkelas(){
+        return $this->hasOne(ManageKelas::class,'id','manage_kelas_id');
+    }
 }

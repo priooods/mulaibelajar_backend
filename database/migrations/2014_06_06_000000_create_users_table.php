@@ -18,7 +18,7 @@ class CreateUsersTable extends Migration
             $table->string('username')->unique();
             $table->string('nama_lengkap');
             $table->bigInteger('no_hp');
-            $table->enum('level', ['SD','SMP','SMA','UMUM']);
+            $table->enum('level', ['SD Sederajat','SMP/MTS Sederajat','SMA/SMK/MA Sederajat','UMUM']);
             $table->text('avatar')->nullable();
             $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();

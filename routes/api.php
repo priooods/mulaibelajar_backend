@@ -1,9 +1,12 @@
 <?php
 
+use App\Http\Controllers\IntensifController;
 use App\Http\Controllers\KelasController;
 use App\Http\Controllers\ManageKelasController;
 use App\Http\Controllers\PelajaranController;
+use App\Http\Controllers\PesananController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\VoucherController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -50,5 +53,30 @@ Route::middleware('jwt.verify')->group(function () {
         Route::post('update', [ManageKelasController::class,'update']);
         Route::post('delete', [ManageKelasController::class,'delete']);
         Route::post('detail', [ManageKelasController::class,'detail']);
+    });
+    Route::prefix('voucher')->group(function () {
+        Route::post('add', [VoucherController::class,'add']);
+        Route::get('all', [VoucherController::class,'all']);
+        Route::post('update', [VoucherController::class,'update']);
+        Route::post('delete', [VoucherController::class,'delete']);
+        Route::post('detail', [VoucherController::class,'detail']);
+    });
+    Route::prefix('intensif')->group(function () {
+        Route::post('new_intensif', [IntensifController::class,'new_intensif']);
+        Route::get('all_intensif', [IntensifController::class,'all_intensif']);
+        Route::post('update_intensif', [IntensifController::class,'update_intensif']);
+        Route::post('delete_intensif', [IntensifController::class,'delete_intensif']);
+        Route::post('new_manage_intensif', [IntensifController::class,'new_manage_intensif']);
+        Route::get('all_manage_intensif', [IntensifController::class,'all_manage_intensif']);
+        Route::post('update_manage_intensif', [IntensifController::class,'update_manage_intensif']);
+        Route::post('delete_manage_intensif', [IntensifController::class,'delete_manage_intensif']);
+    });
+    Route::prefix('pesanan')->group(function () {
+        Route::post('add', [PesananController::class,'add_pesanan']);
+        Route::post('add_manage_pesanan', [PesananController::class,'add_manage_pesanan']);
+        Route::get('all', [PesananController::class,'all_pesanan']);
+        Route::post('update', [PesananController::class,'update']);
+        Route::post('delete', [PesananController::class,'delete']);
+        Route::post('detail', [PesananController::class,'detail']);
     });
 });

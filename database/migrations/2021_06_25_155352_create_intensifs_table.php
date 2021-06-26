@@ -15,9 +15,11 @@ class CreateIntensifsTable extends Migration
     {
         Schema::create('intensifs', function (Blueprint $table) {
             $table->id();
+            $table->longText('deskripsi');
             $table->string('nama');
             $table->bigInteger('harga');
-            $table->longText('deskripsi');
+            $table->integer('kelas');
+            $table->enum('jenjang', ['SD','SMP','SMA']);
             $table->timestamps();
         });
     }

@@ -13,7 +13,9 @@ class IntensifController extends Controller
         if($validate = $this->validing($request->all(), [
             'nama' => 'required',
             'deskripsi' => 'required',
-            'harga' => 'required'
+            'harga' => 'required',
+            'kelas' => 'required',
+            'jenjang' => 'required'
         ]))
             return $validate;
         
@@ -53,7 +55,6 @@ class IntensifController extends Controller
 
     public function new_manage_intensif(Request $request){
         if($validate = $this->validing($request->all(), [
-            'nama' => 'required',
             'intensif_id' => 'required',
             'manage_kelas_id' => 'required'
         ]))
@@ -64,7 +65,7 @@ class IntensifController extends Controller
     }
 
     public function all_manage_intensif(){
-        return $this->resSuccess(ManageIntensif::all());
+        return $this->resSuccess(ManageIntensif::with(['detail','pelajaran'])->get());
     }
 
     public function update_manage_intensif(Request $request){

@@ -12,8 +12,9 @@ class KelasController extends Controller
 {
     public function add(Request $request){
         if($validator = $this->validing($request->all(), [
-            'nama_kelas' => 'required',
+            'kelas' => 'required',
             'deskripsi' => 'required',
+            'jenjang' => 'required',
         ]))
             return $validator;
         $statement = DB::select("SHOW TABLE STATUS LIKE 'kelas'");

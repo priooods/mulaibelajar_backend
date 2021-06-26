@@ -17,4 +17,8 @@ class Pesanan extends Model
         'intensif_id',
         'voucher_id',
     ];
+
+    public function detail(){
+        return $this->hasOne(ManagePesanan::class,'pesanan_id','id');
+    }
 }

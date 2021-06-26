@@ -18,6 +18,7 @@ class CreatePelajaransTable extends Migration
             $table->string('nama_pelajaran');
             $table->string('kode_pelajaran')->nullable();
             $table->longText('deskripsi')->nullable();
+            $table->longText('subtitle')->nullable();
             $table->timestamps();
         });
     }

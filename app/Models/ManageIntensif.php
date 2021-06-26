@@ -14,4 +14,11 @@ class ManageIntensif extends Model
         'intensif_id',
         'manage_kelas_id'
     ];
+
+    public function detail(){
+        return $this->hasOne(Intensif::class,'id','intensif_id');
+    }
+    public function pelajaran(){
+        return $this->hasMany(ManageKelas::class,'id','manage_kelas_id');
+    }
 }

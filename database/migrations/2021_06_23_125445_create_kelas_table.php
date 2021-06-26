@@ -15,9 +15,10 @@ class CreateKelasTable extends Migration
     {
         Schema::create('kelas', function (Blueprint $table) {
             $table->id();
-            $table->string('nama_kelas');
+            $table->integer('kelas');
             $table->string('kode_kelas')->nullable();
             $table->longText('deskripsi')->nullable();
+            $table->enum('jenjang', ['SD','SMP','SMA','UMUM']);
             $table->timestamps();
         });
     }

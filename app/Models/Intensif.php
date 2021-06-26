@@ -13,6 +13,8 @@ class Intensif extends Model
     protected $fillable = [
         'nama',
         'harga',
-        'deskripsi'
+        'deskripsi',
+        'kelas',
+        'jenjang'
     ];
 }

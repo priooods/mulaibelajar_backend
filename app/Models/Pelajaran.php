@@ -13,6 +13,7 @@ class Pelajaran extends Model
     protected $fillable = [
         'deskripsi',
         'nama_pelajaran',
-        'kode_pelajaran'
+        'kode_pelajaran',
+        'subtitle'
     ];
 }

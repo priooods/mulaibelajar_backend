@@ -16,7 +16,6 @@ class VoucherController extends Controller
             'mulai' => 'required|date',
             'selesai' => 'required|date',
             'paket' => 'required',
-            'intensif_id' => 'required',
         ]))
             return $validator;
 

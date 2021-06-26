@@ -14,7 +14,7 @@ class ManageKelasController extends Controller
         if($validate = $this->validing($request->all(), [
             'pelajaran_id' => 'required',
             'kelas_id' => 'required',
-            'harga' => 'required'
+            'harga' => 'required',
         ]))
             return $validate;
         

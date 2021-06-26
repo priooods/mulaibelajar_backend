@@ -20,6 +20,6 @@ class ManageKelas extends Model
         return $this->hasOne(Kelas::class,'id', 'kelas_id');
     }
     public function Pelajaran(){
-        return $this->hasMany(Pelajaran::class,'id', 'pelajaran_id');
+        return $this->hasOne(Pelajaran::class,'id', 'pelajaran_id');
     }
 }
