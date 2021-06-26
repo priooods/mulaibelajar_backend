@@ -16,10 +16,10 @@ class ManageKelas extends Model
         'harga',
     ];
 
-    public function Kelas(){
+    public function kelas(){
         return $this->hasOne(Kelas::class,'id', 'kelas_id');
     }
-    public function Pelajaran(){
+    public function pelajaran(){
         return $this->hasOne(Pelajaran::class,'id', 'pelajaran_id');
     }
 }

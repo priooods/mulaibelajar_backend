@@ -12,13 +12,18 @@ class Pesanan extends Model
 
     protected $fillable = [
         'user_id',
+        'pembayaran_id',
         'harga',
         'paket',
-        'intensif_id',
+        'paket_id',
+        'type',
         'voucher_id',
     ];
 
     public function detail(){
         return $this->hasOne(ManagePesanan::class,'pesanan_id','id');
+    }
+    public function detail_pesanan(){
+        return $this->hasMany(PaketPelajaran::class,'id','paket_id');
     }
 }

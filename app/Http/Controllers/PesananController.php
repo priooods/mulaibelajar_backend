@@ -13,6 +13,7 @@ class PesananController extends Controller
         if($validator = $this->validing($request->all(), [
             'user_id' => 'required',
             'paket' => 'required',
+            'type' => 'required',
             'token' => 'required',
             'harga' => 'required',
         ]))
@@ -24,7 +25,9 @@ class PesananController extends Controller
 
     public function all_pesanan(){
         return $this->resSuccess(Pesanan::with(
-            ['detail' => function($dt){
+            ['detail_pesanan'=> function($dt){
+                $dt->with(['detail_pelajaran']);
+            },'detail' => function($dt){
                 $dt->with(['detailkelas']);
             }])
             ->get());

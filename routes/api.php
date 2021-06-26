@@ -3,7 +3,10 @@
 use App\Http\Controllers\IntensifController;
 use App\Http\Controllers\KelasController;
 use App\Http\Controllers\ManageKelasController;
+use App\Http\Controllers\PaketController;
+use App\Http\Controllers\PaketPelajaranController;
 use App\Http\Controllers\PelajaranController;
+use App\Http\Controllers\PembayaranController;
 use App\Http\Controllers\PesananController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\VoucherController;
@@ -39,14 +42,12 @@ Route::middleware('jwt.verify')->group(function () {
         Route::post('update', [KelasController::class,'update']);
         Route::post('delete', [KelasController::class,'delete']);
     });
-
     Route::prefix('pelajaran')->group(function () {
         Route::post('add', [PelajaranController::class,'add']);
         Route::get('all', [PelajaranController::class,'all']);
         Route::post('update', [PelajaranController::class,'update']);
         Route::post('delete', [PelajaranController::class,'delete']);
     });
-
     Route::prefix('manage')->group(function () {
         Route::post('add', [ManageKelasController::class,'add']);
         Route::get('all', [ManageKelasController::class,'all']);
@@ -61,15 +62,15 @@ Route::middleware('jwt.verify')->group(function () {
         Route::post('delete', [VoucherController::class,'delete']);
         Route::post('detail', [VoucherController::class,'detail']);
     });
-    Route::prefix('intensif')->group(function () {
-        Route::post('new_intensif', [IntensifController::class,'new_intensif']);
-        Route::get('all_intensif', [IntensifController::class,'all_intensif']);
-        Route::post('update_intensif', [IntensifController::class,'update_intensif']);
-        Route::post('delete_intensif', [IntensifController::class,'delete_intensif']);
-        Route::post('new_manage_intensif', [IntensifController::class,'new_manage_intensif']);
-        Route::get('all_manage_intensif', [IntensifController::class,'all_manage_intensif']);
-        Route::post('update_manage_intensif', [IntensifController::class,'update_manage_intensif']);
-        Route::post('delete_manage_intensif', [IntensifController::class,'delete_manage_intensif']);
+    Route::prefix('paket')->group(function () {
+        Route::post('new_paket', [PaketPelajaranController::class,'new_paket']);
+        Route::get('all_paket', [PaketPelajaranController::class,'all_paket']);
+        Route::post('update_paket', [PaketPelajaranController::class,'update_paket']);
+        Route::post('delete_paket', [PaketPelajaranController::class,'delete_paket']);
+        Route::post('new_manage_paket', [PaketPelajaranController::class,'new_manage_paket']);
+        Route::get('all_manage_paket', [PaketPelajaranController::class,'all_manage_paket']);
+        Route::post('update_manage_paket', [PaketPelajaranController::class,'update_manage_paket']);
+        Route::post('delete_manage_paket', [PaketPelajaranController::class,'delete_manage_paket']);
     });
     Route::prefix('pesanan')->group(function () {
         Route::post('add', [PesananController::class,'add_pesanan']);
@@ -78,5 +79,12 @@ Route::middleware('jwt.verify')->group(function () {
         Route::post('update', [PesananController::class,'update']);
         Route::post('delete', [PesananController::class,'delete']);
         Route::post('detail', [PesananController::class,'detail']);
+    });
+    Route::prefix('bayar')->group(function () {
+        Route::post('add', [PembayaranController::class,'add']);
+        Route::get('all', [PembayaranController::class,'all']);
+        Route::post('update', [PembayaranController::class,'update']);
+        Route::post('delete', [PembayaranController::class,'delete']);
+        Route::post('detail', [PembayaranController::class,'detail']);
     });
 });

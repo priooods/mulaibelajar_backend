@@ -21,12 +21,12 @@ class CreateVouchersTable extends Migration
             $table->date('mulai');
             $table->date('selesai');
             $table->enum('paket', ['parsial','intensif','semaumu']);
-            $table->unsignedBigInteger('intensif_id')->nullable();
+            $table->unsignedBigInteger('paket_id')->nullable();
             $table->timestamps();
         });
 
         Schema::table('vouchers', function($table){
-            $table->foreign('intensif_id')->references('id')->on('intensifs')->onDelete('set null');
+            $table->foreign('paket_id')->references('id')->on('paket_pelajarans')->onDelete('set null');
         });
     }
 

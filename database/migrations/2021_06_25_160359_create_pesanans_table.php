@@ -16,15 +16,17 @@ class CreatePesanansTable extends Migration
         Schema::create('pesanans', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('user_id');
+            $table->unsignedBigInteger('pembayaran_id');
             $table->bigInteger('harga');
-            $table->enum('paket', ['parsial','intensif','semaumu']);
-            $table->unsignedBigInteger('intensif_id')->nullable();
+            $table->enum('type', ['pilih','paket']);
+            $table->enum('paket', ['parsial','intensif','semaumu','serius']);
+            $table->unsignedBigInteger('paket_id')->nullable();
             $table->unsignedBigInteger('voucher_id')->nullable();
             $table->timestamps();
         });
 
         Schema::table('pesanans', function($table){
-            $table->foreign('intensif_id')->references('id')->on('intensifs')->onDelete('set null');
+            $table->foreign('paket_id')->references('id')->on('paket_pelajarans')->onDelete('set null');
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->foreign('voucher_id')->references('id')->on('vouchers')->onDelete('set null');
         });

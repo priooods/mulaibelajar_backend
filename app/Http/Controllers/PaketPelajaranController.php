@@ -2,92 +2,101 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Intensif;
-use App\Models\ManageIntensif;
+use App\Models\ManagePaket;
+use App\Models\PaketPelajaran;
 use Exception;
 use Illuminate\Http\Request;
 
-class IntensifController extends Controller
+class PaketPelajaranController extends Controller
 {
-    public function new_intensif(Request $request){
+    public function new_paket(Request $request){
         if($validate = $this->validing($request->all(), [
-            'nama' => 'required',
+            'jurusan' => 'required',
             'deskripsi' => 'required',
             'harga' => 'required',
-            'kelas' => 'required',
-            'jenjang' => 'required'
+            'kelas_id' => 'required',
+            'pelajaran' => 'required'
         ]))
             return $validate;
-        
-        $manage = Intensif::create($request->all());
+        if (sizeof($request->pelajaran)!=3)
+            return $this->resFailed(1, "Pelajaran tidak berjumlah 3!");
+        $manage = PaketPelajaran::create($request->all());
+        $manage->detail_pelajaran()->createMany($request->pelajaran);
         return $this->resSuccess($manage);
     }
 
-    public function all_intensif(){
-        return $this->resSuccess(Intensif::all());
+    public function all_paket(){
+        $now = gmdate('Y-m-d', time() + 3600*(7+date("I")));
+        return $this->resSuccess(PaketPelajaran::with(['detail_pelajaran'=>function($q){
+            $q->with(['pelajaran'=>function($q){
+                $q->with('pelajaran');
+            }]);
+        },'kelas', 'voucher'=>function($q)use($now){
+            $q->where('mulai','<',$now)->where('selesai','>',$now);
+        }])->get());
     }
 
-    public function delete_intensif(Request $request){
+    public function delete_paket(Request $request){
         if ($validate = $this->validing($request->all(),[
             'id' => 'required',
         ]))
             return $validate;
         try{
-            Intensif::find($request->id)->delete();
+            PaketPelajaran::find($request->id)->delete();
         }catch(Exception $st){
             return $this->resFailed(1,'Data gagal dihapus!');
         }
         return $this->resSuccess('Data berhasil dihapus!');
     }
 
-    public function update_intensif(Request $request){
+    public function update_paket(Request $request){
         if ($validate = $this->validing($request->all(),[
             'id' => 'required',
         ]))
             return $validate;
         try{
-            Intensif::find($request->id)->update();
+            PaketPelajaran::find($request->id)->update();
         }catch(Exception $st){
             return $this->resFailed(1,'Data gagal di update!');
         }
         return $this->resSuccess('Data berhasil di update!');
     }
 
-    public function new_manage_intensif(Request $request){
+    public function new_manage_paket(Request $request){
         if($validate = $this->validing($request->all(), [
-            'intensif_id' => 'required',
+            'paket_pelajaran_id' => 'required',
             'manage_kelas_id' => 'required'
         ]))
             return $validate;
         
-        $manage = ManageIntensif::create($request->all());
+        $manage = ManagePaket::create($request->all());
         return $this->resSuccess($manage);
     }
 
-    public function all_manage_intensif(){
-        return $this->resSuccess(ManageIntensif::with(['detail','pelajaran'])->get());
+    public function all_manage_paket(){
+        return $this->resSuccess(ManagePaket::with(['detail','pelajaran'])->get());
     }
 
-    public function update_manage_intensif(Request $request){
+    public function update_manage_paket(Request $request){
         if ($validate = $this->validing($request->all(),[
             'id' => 'required',
         ]))
             return $validate;
         try{
-            ManageIntensif::find($request->id)->update();
+            ManagePaket::find($request->id)->update();
         }catch(Exception $st){
             return $this->resFailed(1,'Data gagal di update!');
         }
         return $this->resSuccess('Data berhasil di update!');
     }
 
-    public function delete_manage_intensif(Request $request){
+    public function delete_manage_paket(Request $request){
         if ($validate = $this->validing($request->all(),[
             'id' => 'required',
         ]))
             return $validate;
         try{
-            ManageIntensif::find($request->id)->delete();
+            ManagePaket::find($request->id)->delete();
         }catch(Exception $st){
             return $this->resFailed(1,'Data gagal dihapus!');
         }

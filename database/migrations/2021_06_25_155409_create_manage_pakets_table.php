@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateManageIntensifsTable extends Migration
+class CreateManagePaketsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,15 +13,15 @@ class CreateManageIntensifsTable extends Migration
      */
     public function up()
     {
-        Schema::create('manage_intensifs', function (Blueprint $table) {
+        Schema::create('manage_pakets', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('intensif_id');
+            $table->unsignedBigInteger('paket_pelajaran_id');
             $table->unsignedBigInteger('manage_kelas_id');
             $table->timestamps();
         });
 
-        Schema::table('manage_intensifs', function($table){
-            $table->foreign('intensif_id')->references('id')->on('intensifs')->onDelete('cascade');
+        Schema::table('manage_pakets', function($table){
+            $table->foreign('paket_pelajaran_id')->references('id')->on('paket_pelajarans')->onDelete('cascade');
             $table->foreign('manage_kelas_id')->references('id')->on('manage_kelas')->onDelete('cascade');
         });
     }
@@ -33,6 +33,6 @@ class CreateManageIntensifsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('manage_intensifs');
+        Schema::dropIfExists('manage_pakets');
     }
 }

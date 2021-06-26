@@ -17,6 +17,6 @@ class Voucher extends Model
         'mulai',
         'paket',
         'selesai',
-        'intensif_id',
+        'paket_id',
     ];
 }
