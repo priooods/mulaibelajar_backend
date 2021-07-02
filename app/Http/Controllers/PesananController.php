@@ -28,7 +28,9 @@ class PesananController extends Controller
             ['detail_pesanan'=> function($dt){
                 $dt->with(['detail_pelajaran']);
             },'detail' => function($dt){
-                $dt->with(['detailkelas']);
+                $dt->with(['detailkelas' => function($s){
+               	$s->with(['pelajaran']);
+              }]);
             }])
             ->get());
     }

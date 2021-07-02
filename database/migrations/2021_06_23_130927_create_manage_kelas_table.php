@@ -15,15 +15,15 @@ class CreateManageKelasTable extends Migration
     {
         Schema::create('manage_kelas', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('kelas_id')->nullable();
-            $table->unsignedBigInteger('pelajaran_id')->nullable();
-            $table->bigInteger('harga');
+            $table->unsignedBigInteger('plj_id')->nullable();
+            $table->bigInteger('harga_akhir');
+            $table->bigInteger('harga_discount')->nullable();
+            $table->bigInteger('discount')->nullable();
             $table->timestamps();
         });
 
         Schema::table('manage_kelas', function($table){
-            $table->foreign('kelas_id')->references('id')->on('kelas')->onDelete('set null');
-            $table->foreign('pelajaran_id')->references('id')->on('pelajarans')->onDelete('set null');
+            $table->foreign('plj_id')->references('id')->on('subspelajarans')->onDelete('cascade');
         });
     }
 

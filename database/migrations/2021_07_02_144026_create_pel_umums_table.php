@@ -4,21 +4,19 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreatePelajaransTable extends Migration
+class CreatePelUmumsTable extends Migration
 {
     /**
      * Run the migrations.
      *
      * @return void
      */
-    public function up()
-    {
-        Schema::create('pelajarans', function (Blueprint $table) {
+    public function up(){
+        Schema::create('pel_umums', function (Blueprint $table) {
             $table->id();
-            $table->string('nama_pelajaran');
-            $table->string('kode_pelajaran')->nullable();
-            $table->longText('deskripsi')->nullable();
-            $table->longText('subtitle')->nullable();
+            $table->string('nama');
+            $table->text('deskripsi')->nullable();
+            $table->string('img')->nullable();
             $table->timestamps();
         });
     }
@@ -30,6 +28,6 @@ class CreatePelajaransTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('pelajarans');
+        Schema::dropIfExists('pel_umums');
     }
 }

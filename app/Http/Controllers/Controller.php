@@ -6,6 +6,7 @@ use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Foundation\Bus\DispatchesJobs;
 use Illuminate\Foundation\Validation\ValidatesRequests;
 use Illuminate\Routing\Controller as BaseController;
+use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\Validator;
 
 class Controller extends BaseController
@@ -32,6 +33,14 @@ class Controller extends BaseController
             ], 200, [], JSON_NUMERIC_CHECK);
     }
     public function resSuccess($data){
+        return response()->json([
+            'error_code' => 0,
+            'error_message' => "",
+            'data' => $data
+        ], 200, [], JSON_NUMERIC_CHECK);
+    }
+    public function resUserSuccess($data){
+        $data->password_verified = Crypt::decrypt($data->password_verified);
         return response()->json([
             'error_code' => 0,
             'error_message' => "",

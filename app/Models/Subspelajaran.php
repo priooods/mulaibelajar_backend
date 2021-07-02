@@ -6,22 +6,23 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Notifications\Notifiable;
 
-class Pelajaran extends Model
+class Subspelajaran extends Model
 {
     use HasFactory, Notifiable;
 
     protected $fillable = [
         'img',
-        'umum_id',
+        'plj_id',
+        'kls_id',
         'title',
-        'code',
-        'subs'
+        'subs',
+        'level'
     ];
 
-    public function subpel(){
-        return $this->hasMany(Subspelajaran::class,'plj_id','id');
+    public function kelas(){
+        return $this->hasOne(Kelas::class,'id','kls_id');
     }
-    public function umum(){
-        return $this->hasMany(PelUmum::class,'id','umum_id');
+    public function harga(){
+        return $this->hasOne(ManageKelas::class,'plj_id','id');
     }
 }

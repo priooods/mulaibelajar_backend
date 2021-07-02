@@ -13,14 +13,13 @@ class KelasController extends Controller
     public function add(Request $request){
         if($validator = $this->validing($request->all(), [
             'kelas' => 'required',
-            'deskripsi' => 'required',
-            'jenjang' => 'required',
+            'level' => 'required',
         ]))
             return $validator;
         $statement = DB::select("SHOW TABLE STATUS LIKE 'kelas'");
         $nextId = $statement[0]->Auto_increment;
 
-        $request['kode_kelas'] = "KLS".str_pad($nextId,6-floor(log10($nextId)),"0",STR_PAD_LEFT);
+        $request['code'] = "KLS".str_pad($nextId,6-floor(log10($nextId)),"0",STR_PAD_LEFT);
         $kelas = Kelas::create($request->all());
         return $this->resSuccess($kelas);
     }

@@ -11,9 +11,8 @@ class Kelas extends Model
     use HasFactory, Notifiable;
 
     protected $fillable = [
-        'deskripsi',
         'kelas',
-        'kode_kelas',
-        'jenjang'
+        'code',
+        'level'
     ];
 }

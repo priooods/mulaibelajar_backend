@@ -11,15 +11,9 @@ class ManageKelas extends Model
     use HasFactory, Notifiable;
 
     protected $fillable = [
-        'kelas_id',
-        'pelajaran_id',
-        'harga',
+        'plj_id',
+        'harga_akhir',
+        'harga_discount',
+        'discount',
     ];
-
-    public function kelas(){
-        return $this->hasOne(Kelas::class,'id', 'kelas_id');
-    }
-    public function pelajaran(){
-        return $this->hasOne(Pelajaran::class,'id', 'pelajaran_id');
-    }
 }

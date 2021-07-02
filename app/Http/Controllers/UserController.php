@@ -21,7 +21,7 @@ class UserController extends Controller
             'username' => 'required|string|max:255',
             'email' => 'required|string|email|max:255|unique:users',
             'password' => 'required|min:6',
-            'nama_lengkap' => 'required',
+            'fullname' => 'required',
             'level' => 'required',
             'no_hp' => 'required|int',
         ]);
@@ -45,7 +45,7 @@ class UserController extends Controller
             $user->update(['avatar' => $filename]);
         }
 
-        return $this->resSuccess(compact('user','token'),201);
+        return $this->resUserSuccess(compact('user','token'),201);
     }
 
     public function login(Request $request){
@@ -83,14 +83,14 @@ class UserController extends Controller
             }
         }
         if (!is_null($request->password)) $user->password_verified = Crypt::encrypt($request->password);
-        if (!is_null($request->nama_lengkap)) $user->nama_lengkap = $request->nama_lengkap;
+        if (!is_null($request->fullname)) $user->fullname = $request->fullname;
         if (!is_null($request->password)) $user->password = Hash::make($request->password);
         if (!is_null($request->username)) $user->username = $request->username;
         if (!is_null($request->no_hp)) $user->no_hp = $request->no_hp;
         if (!is_null($request->level)) $user->level = $request->level;
         if (!is_null($request->email)) $user->email = $request->email;
         $user->update();
-        return $this->resSuccess($user);
+        return $this->resUserSuccess($user);
     }
 
     public function me(){
@@ -105,7 +105,7 @@ class UserController extends Controller
         } catch (JWTException $e) {
             return response()->json(['token_absent'], $e->getCode());
         }
-        return $this->resSuccess($user->get());
+        return $this->resUserSuccess($user->get());
     }
 
     public function delete(){
@@ -124,6 +124,6 @@ class UserController extends Controller
     }
 
     public function all(){
-        return $this->resSuccess(User::all());
+        return $this->resUserSuccess(User::all());
     }
 }

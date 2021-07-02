@@ -12,9 +12,8 @@ class ManageKelasController extends Controller
 
     public function add(Request $request){
         if($validate = $this->validing($request->all(), [
-            'pelajaran_id' => 'required',
-            'kelas_id' => 'required',
-            'harga' => 'required',
+            'plj_id' => 'required',
+            'harga_akhir' => 'required',
         ]))
             return $validate;
         
@@ -22,7 +21,10 @@ class ManageKelasController extends Controller
         return $this->resSuccess($manage);
     }
 
-    public function all(){
+    public function all(Request $request){
+    	if($request->kelas_id != null){
+        	return $this->resSuccess(ManageKelas::where('kelas_id', $request->kelas_id)->with(['pelajaran','kelas'])->get());
+        }		
         return $this->resSuccess(ManageKelas::with(['pelajaran','kelas'])->get());
     }
 
