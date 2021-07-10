@@ -10,12 +10,10 @@ class VoucherController extends Controller
 {
     public function add(Request $request){
         if($validator = $this->validing($request->all(), [
-            'nama' => 'required',
-            'kode' => 'required',
-            'potongan' => 'required',
-            'mulai' => 'required|date',
-            'selesai' => 'required|date',
-            'paket' => 'required',
+            'cde' => 'required',
+            'prc' => 'required',
+            'strt' => 'required|date',
+            'end' => 'required|date',
         ]))
             return $validator;
 

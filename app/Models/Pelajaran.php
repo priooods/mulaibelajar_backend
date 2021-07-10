@@ -11,17 +11,29 @@ class Pelajaran extends Model
     use HasFactory, Notifiable;
 
     protected $fillable = [
+        'pplr',
+        'kelas_id',
+        'titl',
+        'desc',
+        'nick',
+        'cde',
         'img',
-        'umum_id',
-        'title',
-        'code',
-        'subs'
+        'type',
+        'lvl',
     ];
 
-    public function subpel(){
-        return $this->hasMany(Subspelajaran::class,'plj_id','id');
+    public function harga(){
+        return $this->hasOne(Harga::class);
     }
-    public function umum(){
-        return $this->hasMany(PelUmum::class,'id','umum_id');
+    public function kelas(){
+        return $this->hasOne(Kelas::class,'id','kelas_id');
     }
+
+    public function paket(){
+        return $this->belongsToMany(Paket::class);
+    }
+
+    protected $hidden = [
+        'kelas_id',
+    ];
 }

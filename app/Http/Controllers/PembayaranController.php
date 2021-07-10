@@ -10,19 +10,19 @@ class PembayaranController extends Controller
 {
     public function add(Request $request){
         if($validator = $this->validing($request->all(), [
-            // 'status' => 'required',
+            'sts' => 'required',
             'user_id' => 'required',
-            'pesanan_id' => 'required'
+            'cde' => 'required',
+            'wktln' => 'required',
+            'bktf' => 'required',
+            'prc' => 'required'
         ]))
             return $validator;
-        // $now = gmdate('Y-m-d', time() + 3600*(7+date("I")) + 259200);
-        // $request['expired'] = $now;
         $pembayaran = Pembayaran::create($request->all());
-            // return $pembayaran;
-        foreach($request->pesanan_id as $id){
-            Pesanan::find($id)->update(["pembayaran_id"=>$pembayaran->id]);
-            // return Pesanan::find($id);
-        }
+        $file = $request->file('bktf');
+        $filename = $pembayaran->id . '_' . $file->getClientOriginalName();
+        $file->move(public_path('file'), $filename);
+        $pembayaran->update(['bktf' => $filename]);
         return $this->resSuccess($pembayaran);
     }
 

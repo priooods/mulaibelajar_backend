@@ -15,9 +15,8 @@ class CreateKelasTable extends Migration
     {
         Schema::create('kelas', function (Blueprint $table) {
             $table->id();
-            $table->integer('kelas');
-            $table->string('code')->nullable();
-            $table->enum('level', ['SD','SMP','SMA','UMUM']);
+            $table->integer('kls')->default(0);
+            $table->enum('tgkt', ['SD','SMP','SMA','UMUM']);
             $table->timestamps();
         });
     }

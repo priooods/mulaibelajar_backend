@@ -11,12 +11,12 @@ class Guru extends Model
    use HasFactory, Notifiable;
 
     protected $fillable = [
-        'alamat',
-        'nama_lengkap',
-        'no_hp',
-        'gender',
-        'tanggal_lahir',
-        'tempat_lahir',
-        'mengajar'
+        'almt',
+        'flnm',
+        'nhp',
+        'gndr',
+        'tglhr',
+        'tmlhr',
+        'mgjr'
     ];
 }

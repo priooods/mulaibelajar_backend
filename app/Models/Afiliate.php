@@ -6,12 +6,12 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Notifications\Notifiable;
 
-class ManageGuru extends Model
+class Afiliate extends Model
 {
     use HasFactory, Notifiable;
-
     protected $fillable = [
-        'guru_id',
-        'pelajaran_id',
+        'cde',
+        'users_id',
+        'rslt'
     ];
 }

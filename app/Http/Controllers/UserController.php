@@ -17,35 +17,29 @@ use Tymon\JWTAuth\Facades\JWTAuth;
 class UserController extends Controller
 {
     public function register(Request $request){
-        $validator = Validator::make($request->all(), [
+        if ($validate = $this->validing($request->all(),[
             'username' => 'required|string|max:255',
-            'email' => 'required|string|email|max:255|unique:users',
+            'eml' => 'required|string|email|max:255|unique:users',
             'password' => 'required|min:6',
-            'fullname' => 'required',
-            'level' => 'required',
-            'no_hp' => 'required|int',
-        ]);
+            'flnm' => 'required',
+            'lvl' => 'required',
+            'nhp' => 'required|int',
+        ]))
+            return $validate;
 
-        if($validator->fails()){
-            return response()->json([
-                'error_code' => 1,
-                'message' => $validator->errors()
-            ], 200);
-        }
-
-        $request['password_verified'] = Crypt::encrypt($request['password']);
+        $request['pswdv'] = Crypt::encrypt($request['password']);
         $request['password'] = Hash::make($request->get('password'));
         $user = User::create($request->all());
         $token = JWTAuth::fromUser($user);
 
-        if ($request->hasFile('avatar')) {
-            $file = $request->file('avatar');
+        if ($request->hasFile('avtr')) {
+            $file = $request->file('avtr');
             $filename = $user->id . '_' . $file->getClientOriginalName();
-            $path = $file->move(public_path('avatar'), $filename);
-            $user->update(['avatar' => $filename]);
+            $file->move(public_path('avtr'), $filename);
+            $user->update(['avtr' => $filename]);
         }
 
-        return $this->resUserSuccess(compact('user','token'),201);
+        return $this->resSuccess($token,201);
     }
 
     public function login(Request $request){
@@ -70,25 +64,25 @@ class UserController extends Controller
             return $validate;
 
         $user = User::find(Auth::user()->id);
-        if ($request->avatar != null){
-            if ($request->hasFile('avatar')) {
-                $file = $request->file('avatar');
+        if ($request->avtr != null){
+            if ($request->hasFile('avtr')) {
+                $file = $request->file('avtr');
                 $filename = $user->id . '_' . $file->getClientOriginalName();
-                if ($user->avatar) {
-                    $file_loc = public_path('avatar/') . $user->avatar;
+                if ($user->avtr) {
+                    $file_loc = public_path('avtr/') . $user->avtr;
                     unlink($file_loc);
                 }
-                $path = $file->move(public_path('avatar'), $filename);
-                $user->avatar = $request->avatar = $filename;
+                $file->move(public_path('avtr'), $filename);
+                $user->avtr = $request->avtr = $filename;
             }
         }
-        if (!is_null($request->password)) $user->password_verified = Crypt::encrypt($request->password);
-        if (!is_null($request->fullname)) $user->fullname = $request->fullname;
+        if (!is_null($request->password)) $user->pswdv = Crypt::encrypt($request->password);
+        if (!is_null($request->flnm)) $user->flnm = $request->flnm;
         if (!is_null($request->password)) $user->password = Hash::make($request->password);
         if (!is_null($request->username)) $user->username = $request->username;
-        if (!is_null($request->no_hp)) $user->no_hp = $request->no_hp;
-        if (!is_null($request->level)) $user->level = $request->level;
-        if (!is_null($request->email)) $user->email = $request->email;
+        if (!is_null($request->nhp)) $user->nhp = $request->nhp;
+        if (!is_null($request->lvl)) $user->lvl = $request->lvl;
+        if (!is_null($request->eml)) $user->eml = $request->eml;
         $user->update();
         return $this->resUserSuccess($user);
     }
@@ -105,7 +99,7 @@ class UserController extends Controller
         } catch (JWTException $e) {
             return response()->json(['token_absent'], $e->getCode());
         }
-        return $this->resUserSuccess($user->get());
+        return $this->resUserSuccess($user);
     }
 
     public function delete(){
@@ -117,13 +111,13 @@ class UserController extends Controller
                 'error_message' => 'Pengguna tidak ditemukan!',
             ]);
         }
-        $file_loc = public_path('avatar/') . $user->avatar;
+        $file_loc = public_path('avtr/') . $user->avtr;
         unlink($file_loc);
         $user->delete();
         return $this->resSuccess("Pengguna berhasil di hapus");
     }
 
     public function all(){
-        return $this->resUserSuccess(User::all());
+        return $this->resSuccess(User::all());
     }
 }

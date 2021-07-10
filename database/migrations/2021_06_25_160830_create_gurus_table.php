@@ -15,13 +15,13 @@ class CreateGurusTable extends Migration
     {
         Schema::create('gurus', function (Blueprint $table) {
             $table->id();
-            $table->text('alamat');
-            $table->string('nama_lengkap');
-            $table->bigInteger('no_hp');
-            $table->enum('gender', ['Wanita','Pria']);
-            $table->date('tanggal_lahir');
-            $table->string('tempat_lahir');
-            $table->string('mengajar');
+            $table->text('almt');
+            $table->string('flnm');
+            $table->bigInteger('nhp');
+            $table->enum('gndr', ['Wanita','Pria']);
+            $table->date('tglhr'); //tgl lahir
+            $table->string('tmlhr'); //tmpt lahir
+            $table->string('mgjr'); //mengajar di mana
             $table->timestamps();
         });
     }

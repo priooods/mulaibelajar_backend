@@ -16,8 +16,8 @@ class CreateSilabusPointsTable extends Migration
         Schema::create('silabus_points', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('silabus_id');
-            $table->text('title');
-            $table->text('deskripsi')->nullable();
+            $table->text('ttl');
+            $table->text('desc')->nullable();
             $table->timestamps();
         });
 

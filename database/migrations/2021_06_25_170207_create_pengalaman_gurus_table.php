@@ -16,10 +16,10 @@ class CreatePengalamanGurusTable extends Migration
         Schema::create('pengalaman_gurus', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('guru_id');
-            $table->integer('tahun_mulai');
-            $table->integer('tahun_selesai');
-            $table->string('sekolah');
-            $table->string('pelajaran');
+            $table->integer('thnm');
+            $table->integer('thns');
+            $table->string('sklh');
+            $table->string('plj');
             $table->timestamps();
         });
 

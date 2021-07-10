@@ -11,9 +11,16 @@ class Silabus extends Model
     use HasFactory, Notifiable;
 
     protected $fillable = [
-        'pertemuan',
-        'waktu',
-        'guru_id',
-        'manage_kelas_id'
+        'ptmn',
+        'pelajaran_id'
     ];
+
+    public function point(){
+        return $this->hasMany(SilabusPoint::class);
+    }
+
+    protected $hidden = [
+        'pelajaran_id',
+    ];
+
 }

@@ -11,12 +11,9 @@ class Voucher extends Model
    use HasFactory, Notifiable;
 
     protected $fillable = [
-        'nama',
-        'kode',
-        'potongan',
-        'mulai',
-        'paket',
-        'selesai',
-        'paket_id',
+        'cde',
+        'prc',
+        'strt',
+        'end',
     ];
 }

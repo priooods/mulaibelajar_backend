@@ -11,18 +11,16 @@ class Pembayaran extends Model
     use HasFactory, Notifiable;
 
     protected $fillable = [
-        'status',
         'user_id',
-        'waktu_lunas',
-        'bukti_transfer',
-        'jumlah_bayar',
-        // 'expired'
+        'cde_kls',
+        'cde_afl',
+        'sts',
+        'wktln',
+        'bktf',
+        'prc'
     ];
     
     public function users(){
         return $this->hasOne(User::class,'id','user_id');
-    }
-    public function pesanan(){
-        return $this->hasMany(Pesanan::class,'pembayaran_id','id');
     }
 }

@@ -11,8 +11,13 @@ class SilabusPoint extends Model
     use HasFactory, Notifiable;
 
     protected $fillable = [
-        'kelas_id',
-        'pelajaran_id',
-        'harga',
+        'silabus_id',
+        'ttl',
+        'desc',
     ];
+
+    protected $hidden = [
+        'silabus_id','created_at', 'updated_at'
+    ];
+
 }

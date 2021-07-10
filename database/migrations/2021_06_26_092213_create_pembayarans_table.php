@@ -15,16 +15,14 @@ class CreatePembayaransTable extends Migration
     {
         Schema::create('pembayarans', function (Blueprint $table) {
             $table->id();
-            $table->enum('status',['LUNAS','PROSES','BELUM'])->default('BELUM');
             $table->unsignedBigInteger('user_id');
-            // $table->datetime('expired');
-            $table->datetime('waktu_lunas')->nullable();
-            $table->string('bukti_transfer')->nullable();
-            $table->integer('jumlah_bayar')->nullable();
+            $table->string('cde_kls');
+            $table->string('cde_afl')->nullable();
+            $table->enum('sts',['Lunas','Proses','Belum Lunas'])->default('Belum Lunas');
+            $table->datetime('wktln')->nullable(); //waktu lunas
+            $table->string('bktf')->nullable(); //bukti tf
+            $table->integer('prc'); //price end
             $table->timestamps();
-        });
-
-        Schema::table('pembayarans', function($table){
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
         });
     }

@@ -12,9 +12,9 @@ class PengalamanGuru extends Model
 
     protected $fillable = [
         'guru_id',
-        'tahun_mulai',
-        'tahun_selesai',
-        'pelajaran',
-        'sekolah',
+        'thnm',
+        'thns',
+        'sklh',
+        'plj',
     ];
 }

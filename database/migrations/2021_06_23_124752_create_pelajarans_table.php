@@ -15,15 +15,20 @@ class CreatePelajaransTable extends Migration
     {
         Schema::create('pelajarans', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('umum_id')->nullable();
-            $table->string('title');
-            $table->string('code');
-            $table->longText('subs');
+            $table->string('cde');
+            $table->string('titl');
+            $table->string('nick');
+            $table->text('desc');
+            $table->enum('type',['ngoding','nulis','akademik']);
+            $table->enum('pplr',['Popular','Not Popular'])->default('Not Popular');
             $table->string('img')->nullable();
+            $table->enum('lvl',['Junior','Intermediet','Advance'])->default('Junior');
+            $table->unsignedBigInteger('kelas_id');
             $table->timestamps();
         });
+
         Schema::table('pelajarans', function($table){
-            $table->foreign('umum_id')->references('id')->on('pel_umums');
+            $table->foreign('kelas_id')->references('id')->on('kelas')->onDelete('cascade');
         });
     }
 

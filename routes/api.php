@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\AfiliateController;
+use App\Http\Controllers\CheckoutController;
 use App\Http\Controllers\IntensifController;
 use App\Http\Controllers\KelasController;
 use App\Http\Controllers\ManageKelasController;
@@ -8,6 +10,7 @@ use App\Http\Controllers\PaketPelajaranController;
 use App\Http\Controllers\PelajaranController;
 use App\Http\Controllers\PembayaranController;
 use App\Http\Controllers\PesananController;
+use App\Http\Controllers\SilabusController;
 use App\Http\Controllers\SubpelController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\VoucherController;
@@ -41,14 +44,10 @@ Route::post('update', [UserController::class,'update']);
 Route::prefix('pelajaran')->group(function () {
     Route::post('add', [PelajaranController::class,'add']);
     Route::get('all', [PelajaranController::class,'all']);
+    Route::post('find', [PelajaranController::class,'find']);
     Route::post('update', [PelajaranController::class,'update']);
     Route::post('delete', [PelajaranController::class,'delete']);
-});
-Route::prefix('subpel')->group(function () {
-    Route::post('add', [SubpelController::class,'add']);
-    Route::get('all', [SubpelController::class,'all']);
-    Route::post('update', [SubpelController::class,'update']);
-    Route::post('delete', [SubpelController::class,'delete']);
+    Route::post('harga/add', [PelajaranController::class,'hargaadd']);
 });
 Route::prefix('kelas')->group(function () {
     Route::post('add', [KelasController::class,'add']);
@@ -56,30 +55,29 @@ Route::prefix('kelas')->group(function () {
     Route::post('update', [KelasController::class,'update']);
     Route::post('delete', [KelasController::class,'delete']);
 });
-Route::prefix('manage')->group(function () {
-    Route::post('add', [ManageKelasController::class,'add']);
-    Route::get('all', [ManageKelasController::class,'all']);
-    Route::post('update', [ManageKelasController::class,'update']);
-    Route::post('delete', [ManageKelasController::class,'delete']);
-    Route::post('detail', [ManageKelasController::class,'detail']);
-});
 Route::prefix('paket')->group(function () {
-   Route::post('new_paket', [PaketPelajaranController::class,'new_paket']);
-   Route::get('all_paket', [PaketPelajaranController::class,'all_paket']);
-   Route::post('update_paket', [PaketPelajaranController::class,'update_paket']);
-   Route::post('delete_paket', [PaketPelajaranController::class,'delete_paket']);
-   Route::post('new_manage_paket', [PaketPelajaranController::class,'new_manage_paket']);
-   Route::get('all_manage_paket', [PaketPelajaranController::class,'all_manage_paket']);
-   Route::post('update_manage_paket', [PaketPelajaranController::class,'update_manage_paket']);
-   Route::post('delete_manage_paket', [PaketPelajaranController::class,'delete_manage_paket']);
+    Route::post('add', [PaketController::class,'add']);
+    Route::get('all', [PaketController::class,'all']);
+    Route::post('update', [PaketController::class,'update']);
+    Route::post('delete', [PaketController::class,'delete']);
+    Route::post('detail', [PaketController::class,'detail']);
+});
+Route::prefix('voucher')->group(function () {
+    Route::post('add', [VoucherController::class,'add']);
+    Route::get('all', [VoucherController::class,'all']);
+    Route::post('update', [VoucherController::class,'update']);
+    Route::post('delete', [VoucherController::class,'delete']);
+    Route::post('detail', [VoucherController::class,'detail']);
+});
+Route::prefix('silabus')->group(function () {
+    Route::post('add', [SilabusController::class,'add']);
+    Route::get('all', [SilabusController::class,'all']);
 });
 Route::middleware('jwt.verify')->group(function () {
-    Route::prefix('voucher')->group(function () {
-        Route::post('add', [VoucherController::class,'add']);
-        Route::get('all', [VoucherController::class,'all']);
-        Route::post('update', [VoucherController::class,'update']);
-        Route::post('delete', [VoucherController::class,'delete']);
-        Route::post('detail', [VoucherController::class,'detail']);
+    Route::prefix('afiliate')->group(function () {
+        Route::post('add', [AfiliateController::class,'add']);
+        Route::get('find', [AfiliateController::class,'find']);
+        Route::post('delete', [AfiliateController::class,'destroy']);
     });
     Route::prefix('pesanan')->group(function () {
         Route::post('add', [PesananController::class,'add_pesanan']);

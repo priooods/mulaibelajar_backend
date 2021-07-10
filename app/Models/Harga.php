@@ -6,14 +6,18 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Notifications\Notifiable;
 
-class ManageKelas extends Model
+class Harga extends Model
 {
     use HasFactory, Notifiable;
 
     protected $fillable = [
-        'plj_id',
-        'harga_akhir',
-        'harga_discount',
-        'discount',
+        'pelajaran_id',
+        'prc',
+        'prcd',
+        'dsc',
+    ];
+
+    protected $hidden = [
+        'pelajaran_id',
     ];
 }

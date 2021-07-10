@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateSilabusesTable extends Migration
+class CreateHargasTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,11 +13,16 @@ class CreateSilabusesTable extends Migration
      */
     public function up()
     {
-        Schema::create('silabuses', function (Blueprint $table) {
+        Schema::create('hargas', function (Blueprint $table) {
             $table->id();
-            $table->integer('ptmn'); //pertemuan
             $table->unsignedBigInteger('pelajaran_id');
+            $table->bigInteger('prc'); //price
+            $table->bigInteger('prcd')->nullable(); //price discount
+            $table->bigInteger('dsc')->nullable(); //discount
             $table->timestamps();
+        });
+
+        Schema::table('hargas', function($table){
             $table->foreign('pelajaran_id')->references('id')->on('pelajarans')->onDelete('cascade');
         });
     }
@@ -29,6 +34,6 @@ class CreateSilabusesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('silabuses');
+        Schema::dropIfExists('hargas');
     }
 }

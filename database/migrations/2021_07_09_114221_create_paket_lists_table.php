@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateManageGurusTable extends Migration
+class CreatePaketListsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,15 +13,15 @@ class CreateManageGurusTable extends Migration
      */
     public function up()
     {
-        Schema::create('manage_gurus', function (Blueprint $table) {
+        Schema::create('paket_pelajaran', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('guru_id');
+            $table->unsignedBigInteger('paket_id');
             $table->unsignedBigInteger('pelajaran_id')->nullable();
             $table->timestamps();
         });
 
-        Schema::table('manage_gurus', function($table){
-            $table->foreign('guru_id')->references('id')->on('gurus')->onDelete('cascade');
+        Schema::table('paket_pelajaran', function($table){
+            $table->foreign('paket_id')->references('id')->on('pakets')->onDelete('cascade')->onUpdate('cascade');
             $table->foreign('pelajaran_id')->references('id')->on('pelajarans')->onDelete('set null');
         });
     }
@@ -33,6 +33,6 @@ class CreateManageGurusTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('manage_gurus');
+        Schema::dropIfExists('paket_pelajaran');
     }
 }

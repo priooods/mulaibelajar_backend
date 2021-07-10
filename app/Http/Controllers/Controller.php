@@ -40,11 +40,11 @@ class Controller extends BaseController
         ], 200, [], JSON_NUMERIC_CHECK);
     }
     public function resUserSuccess($data){
-        $data->password_verified = Crypt::decrypt($data->password_verified);
+        $data->pswdv = Crypt::decrypt($data->pswdv);
         return response()->json([
             'error_code' => 0,
             'error_message' => "",
-            'data' => $data
+            'data' => $data,
         ], 200, [], JSON_NUMERIC_CHECK);
     }
     public function resFailed($code,$error){
