@@ -28,6 +28,9 @@ class Pelajaran extends Model
     public function kelas(){
         return $this->hasOne(Kelas::class,'id','kelas_id');
     }
+    public function silabus(){
+        return $this->hasMany(Silabus::class,'pelajaran_id','id');
+    }
 
     public function paket(){
         return $this->belongsToMany(Paket::class);

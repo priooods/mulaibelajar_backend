@@ -120,4 +120,13 @@ class UserController extends Controller
     public function all(){
         return $this->resSuccess(User::all());
     }
+
+    public function logout()
+    {
+        Auth::logout();
+        return response()->json([
+                'error_code' => 0,
+                'message' => 'Successfully logged out',
+            ]);
+    }
 }

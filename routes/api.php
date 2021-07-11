@@ -33,18 +33,20 @@ Route::middleware('jwt.verify')->get('/', function (Request $request) {
 });
 Route::middleware('jwt.verify')->group(function () {
     Route::get('me', [UserController::class,'me']);
+    Route::get('logout', [UserController::class,'logout']);
+    Route::get('all', [UserController::class,'all']);
+    Route::post('delete', [UserController::class,'delete']);
+    Route::post('update', [UserController::class,'update']);
+    
 });
-
 Route::post('register', [UserController::class,'register']);
 Route::post('login', [UserController::class,'login']);
-Route::get('all', [UserController::class,'all']);
-Route::post('delete', [UserController::class,'delete']);
-Route::post('update', [UserController::class,'update']);
-
 Route::prefix('pelajaran')->group(function () {
     Route::post('add', [PelajaranController::class,'add']);
     Route::get('all', [PelajaranController::class,'all']);
-    Route::post('find', [PelajaranController::class,'find']);
+    Route::post('find', [PelajaranController::class,'findtype']);
+    Route::post('tingkat', [PelajaranController::class,'findtingkat']);
+    Route::post('detail', [PelajaranController::class,'detail']);
     Route::post('update', [PelajaranController::class,'update']);
     Route::post('delete', [PelajaranController::class,'delete']);
     Route::post('harga/add', [PelajaranController::class,'hargaadd']);
@@ -73,25 +75,9 @@ Route::prefix('silabus')->group(function () {
     Route::post('add', [SilabusController::class,'add']);
     Route::get('all', [SilabusController::class,'all']);
 });
-Route::middleware('jwt.verify')->group(function () {
-    Route::prefix('afiliate')->group(function () {
-        Route::post('add', [AfiliateController::class,'add']);
-        Route::get('find', [AfiliateController::class,'find']);
-        Route::post('delete', [AfiliateController::class,'destroy']);
-    });
-    Route::prefix('pesanan')->group(function () {
-        Route::post('add', [PesananController::class,'add_pesanan']);
-        Route::post('add_manage_pesanan', [PesananController::class,'add_manage_pesanan']);
-        Route::get('all', [PesananController::class,'all_pesanan']);
-        Route::post('update', [PesananController::class,'update']);
-        Route::post('delete', [PesananController::class,'delete']);
-        Route::post('detail', [PesananController::class,'detail']);
-    });
-    Route::prefix('bayar')->group(function () {
-        Route::post('add', [PembayaranController::class,'add']);
-        Route::get('all', [PembayaranController::class,'all']);
-        Route::post('update', [PembayaranController::class,'update']);
-        Route::post('delete', [PembayaranController::class,'delete']);
-        Route::post('detail', [PembayaranController::class,'detail']);
-    });
+Route::prefix('afiliate')->group(function () {
+    Route::post('add', [AfiliateController::class,'add']);
+    Route::get('find', [AfiliateController::class,'find']);
+    Route::post('delete', [AfiliateController::class,'destroy']);
 });
+

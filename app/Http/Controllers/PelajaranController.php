@@ -35,15 +35,42 @@ class PelajaranController extends Controller
     }
 
     public function all(){
-        return $this->resSuccess(Pelajaran::with(['harga','kelas'])->get());
+        return $this->resSuccess(Pelajaran::with(['harga','kelas','silabus' => function($q){
+            $q->with('point')->get();
+        }])->get());
     }
 
-    public function find(Request $request){
+    public function findtype(Request $request){
         if ($validate = $this->validing($request->all(),[
             'type' => 'required',
         ]))
             return $validate;
-        return $this->resSuccess(Pelajaran::where('type', $request->type)->with(['harga'])->get());
+        return $this->resSuccess(Pelajaran::where('type', $request->type)->with(['harga','kelas','silabus' => function($q){
+            $q->with('point')->get();
+        }])->get());
+    }
+
+    public function findtingkat(Request $request){
+        if ($validate = $this->validing($request->all(),[
+            'tgkt' => 'required',
+        ]))
+            return $validate;
+        $listing = Pelajaran::with(['harga','kelas','silabus' => function($q){
+            $q->with('point')->get();
+        }])->whereHas('kelas', function($k) use ($request){
+            $k->where('tgkt', $request->tgkt);
+        })->get();
+        return $this->resSuccess($listing);
+    }
+    
+    public function detail(Request $request){
+        if ($validate = $this->validing($request->all(),[
+            'id' => 'required',
+        ]))
+            return $validate;
+        return $this->resSuccess(Pelajaran::where('id', $request->id)->with(['harga','kelas','silabus' => function($q){
+            $q->with('point')->get();
+        }])->first());
     }
 
     public function update(Request $request){
